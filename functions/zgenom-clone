@@ -72,14 +72,14 @@ function zgenom-clone() {
     else
         command mkdir -p "${dir}"
         if [[ -n $pin ]]; then
-            git -C "${dir}" init
-            git -C "${dir}" remote add origin "${url}"
-            git -C "${dir}" fetch --depth 1 origin "${branch}"
-            git -C "${dir}" checkout FETCH_HEAD 2>/dev/null
+            HOME="" git -C "${dir}" init
+            HOME="" git -C "${dir}" remote add origin "${url}"
+            HOME="" git -C "${dir}" fetch --depth 1 origin "${branch}"
+            HOME="" git -C "${dir}" checkout FETCH_HEAD 2>/dev/null
         elif [[ -n "$branch" ]] && [[ ! "$branch" = '___' ]]; then
-            eval "git clone --depth=1 $submodules -b $branch '$url' '$dir'"
+            HOME="" eval "git clone --depth=1 $submodules -b $branch '$url' '$dir'"
         else
-            eval "git clone --depth=1 $submodules '$url' '$dir'"
+            HOME="" eval "git clone --depth=1 $submodules '$url' '$dir'"
         fi
     fi
 }

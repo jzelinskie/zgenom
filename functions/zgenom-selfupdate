@@ -5,7 +5,7 @@ function zgenom-selfupdate() {
         local no_reset
         zparseopts -D -E -no-reset=no_reset
         pushd -q "${ZGEN_SOURCE}"
-        if git pull; then
+        if HOME="" git pull; then
             if [[ -z $no_reset ]]; then
                 __zgenom_out
                 zgenom-reset

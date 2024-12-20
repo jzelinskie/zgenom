@@ -14,7 +14,7 @@ function __zgenom_git_fetch_head() {
         [[ $result = $branch ]] && return 1
         branch="${branch% *}"
         git config remote.origin.fetch +refs/heads/"$branch":refs/remotes/origin/"$branch"  # Update config to point to new head
-        git fetch --depth=1 origin                                                          # Fetch the new head
+        HOME="" git fetch --depth=1 origin                                                          # Fetch the new head
         git remote set-head origin --auto &>/dev/null                                       # Retry setting the new head
         return $?
     fi
@@ -24,7 +24,7 @@ function __zgenom_git_pull() {
     if [[ ! "$repo" =~ '-___$' ]]; then
         # Only pull if we are on a branch (i.e. not a pinned commit)
         if git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null; then
-            git pull --ff-only
+            HOME="" git pull --ff-only
         fi
     else
         local head
@@ -38,7 +38,7 @@ function __zgenom_git_pull() {
             local curbranch="$(git rev-parse --abbrev-ref HEAD)"
             if [[ "$branch" = "$curbranch" ]]; then
                 # Current head is current branch.
-                git pull --ff-only
+                HOME="" git pull --ff-only
             else
                 __zgenom_out
                 __zgenom_out "New default branch: '$branch'."
@@ -63,7 +63,7 @@ function zgenom-update() {
         __zgenom_err "Updating '${repo#$ZGEN_DIR/}' ..."
         (cd "${repo}" \
             && __zgenom_git_pull \
-            && git submodule update --recursive)
+            && HOME="" git submodule update --recursive)
         __zgenom_out ''
     done
 
